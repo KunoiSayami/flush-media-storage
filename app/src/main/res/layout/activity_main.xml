@@ -11,18 +11,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
         android:text="@string/str_btn_flush_name"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_directory_input" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_mode" />
 
     <Button
-        android:id="@+id/btn_select_directory"
+        android:id="@+id/btn_verify_directory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="@string/str_btn_select_directory"
+        android:layout_marginEnd="68dp"
+        android:text="@string/str_btn_verify_directory"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@+id/btn_flush"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,10 +31,14 @@
     <TextView
         android:id="@+id/text_output"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="151dp"
+        android:layout_marginTop="4dp"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="defaultPosition"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_flush" />
+        app:layout_constraintTop_toBottomOf="@+id/text_status" />
 
     <EditText
         android:id="@+id/et_directory_input"
@@ -44,8 +47,29 @@
         android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_status"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_flush" />
+
+    <Spinner
+        android:id="@+id/spinner_mode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_directory_input" />
 </androidx.constraintlayout.widget.ConstraintLayout>

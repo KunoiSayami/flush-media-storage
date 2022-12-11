@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Flush media storage</string>
     <string name="str_btn_flush_name">Flush</string>
-    <string name="str_btn_select_directory">Select Directory</string>
+    <string name="str_btn_verify_directory">Verify</string>
     <string name="str_empty_directory">Directory is empty</string>
+    <string name="str_completed">Completed</string>
     <string name="key_pref_file">DEFAULT_PREF</string>
     <string name="key_input_data">INPUT_DIRECTORY</string>
+    <string-array name="sp_drop_down_menu">
+        <item>Last 1 day</item>
+        <item>Last 3 days</item>
+        <item>Last 7 days</item>
+        <item>Last 30 days</item>
+        <item>Last 180 days</item>
+        <item>All</item>
+    </string-array>
 </resources>
