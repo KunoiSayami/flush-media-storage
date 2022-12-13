@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,10 +17,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (isPendingPermissionGrant ) {
+            if (isPendingPermissionGrant) {
                 if (!Environment.isExternalStorageManager()) {
                     Toast.makeText(this, R.string.str_permission_not_granted, Toast.LENGTH_SHORT).show();
                 }
@@ -90,14 +87,12 @@ public class MainActivity extends AppCompatActivity {
                         .setTitle("Permission Required")
                         .setMessage("Please go to setting to enable this application manage your all file.")
 
-                        .setPositiveButton(R.string.str_no, (_dialog, which) -> {
-                            Toast.makeText(this, R.string.str_permission_not_granted, Toast.LENGTH_SHORT).show();
-                        })
+                        .setPositiveButton(R.string.str_no, (_dialog, which) -> Toast.makeText(this, R.string.str_permission_not_granted, Toast.LENGTH_SHORT).show())
 
                         .setNegativeButton(R.string.str_yes, (dialog, which) -> {
                             Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            startActivity(intent);
                             isPendingPermissionGrant = true;
+                            startActivity(intent);
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
