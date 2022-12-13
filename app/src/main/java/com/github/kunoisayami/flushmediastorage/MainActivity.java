@@ -67,7 +67,20 @@ public class MainActivity extends AppCompatActivity {
     EditText etDirectoryInput;
     Spinner spMode;
     SwitchCompat swDebug;
-    boolean debugMode;
+    boolean debugMode, isPendingPermissionGrant;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (isPendingPermissionGrant ) {
+                if (!Environment.isExternalStorageManager()) {
+                    Toast.makeText(this, R.string.str_permission_not_granted, Toast.LENGTH_SHORT).show();
+                }
+                isPendingPermissionGrant = false;
+            }
+        }
+    }
 
     void grantPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -84,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         .setNegativeButton(R.string.str_yes, (dialog, which) -> {
                             Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                             startActivity(intent);
+                            isPendingPermissionGrant = true;
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
