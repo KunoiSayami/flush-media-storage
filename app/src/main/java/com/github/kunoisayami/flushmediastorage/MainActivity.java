@@ -1,14 +1,18 @@
 package com.github.kunoisayami.flushmediastorage;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -66,11 +70,32 @@ public class MainActivity extends AppCompatActivity {
     boolean debugMode;
 
     void grantPermission() {
-        String[] permissionsStorage = {Manifest.permission.READ_EXTERNAL_STORAGE};
-        int requestExternalStorage = 1;
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissionsStorage, requestExternalStorage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                // source: https://stackoverflow.com/a/2115770
+                new AlertDialog.Builder(this)
+                        .setTitle("Permission Required")
+                        .setMessage("Please go to setting to enable this application manage your all file.")
+
+                        .setPositiveButton(R.string.str_no, (_dialog, which) -> {
+                            Toast.makeText(this, R.string.str_permission_not_granted, Toast.LENGTH_SHORT).show();
+                        })
+
+                        .setNegativeButton(R.string.str_yes, (dialog, which) -> {
+                            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            startActivity(intent);
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        } else {
+            String[] permissionsStorage = {Manifest.permission.READ_EXTERNAL_STORAGE};
+            int requestExternalStorage = 1;
+            int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissionsStorage, requestExternalStorage);
+            }
+
         }
     }
 

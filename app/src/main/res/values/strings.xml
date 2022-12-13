@@ -19,4 +19,7 @@
         <item>Last 180 days</item>
         <item>All</item>
     </string-array>
+    <string name="str_yes">yes</string>
+    <string name="str_no">no</string>
+    <string name="str_permission_not_granted">Permission not granted, application will not work</string>
 </resources>
