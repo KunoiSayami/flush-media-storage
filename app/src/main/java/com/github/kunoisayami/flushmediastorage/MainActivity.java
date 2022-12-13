@@ -1,6 +1,7 @@
 package com.github.kunoisayami.flushmediastorage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -13,8 +14,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private static final Map<Long, Long> SELECT_2_TIME;
     static {
         Map<Long, Long> m = new HashMap<>();
-        m.put(0L, 24 * 3600L);
-        m.put(1L, 24 * 3 * 3600L);
-        m.put(2L, 24 * 7 * 3600L);
-        m.put(3L, 24 * 30 * 3600L);
-        m.put(4L, 24 * 180 * 3600L);
-        m.put(5L, SPECIAL_NUMBER);
+        long[] items = {1, 3, 12, 24, 24*3, 24*7, 24*30, 24*180};
+        m.put(0L, 600L);
+        long pre_insert_size = m.size();
+        for (int i = 0; i < items.length; i++) {
+            m.put(i + pre_insert_size, items[i] * 3600L);
+        }
+        m.put(items.length + pre_insert_size, SPECIAL_NUMBER);
         SELECT_2_TIME = Collections.unmodifiableMap(m);
     }
     @Override
@@ -58,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     TextView txtDefaultOutput, txtStatus;
     EditText etDirectoryInput;
     Spinner spMode;
+    SwitchCompat swDebug;
+    boolean debugMode;
 
     void grantPermission() {
         String[] permissionsStorage = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -111,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
         txtDefaultOutput.setText(stringBuilder);
 
         MediaScannerConnection.scanFile(this, paths.toArray(new String[0]), null, (path, uri) -> {
-            //Log.i(TAG, String.format("Scanned path %s -> URI = %s", path, uri.toString()));
+            if (this.debugMode)
+                Log.d(TAG, String.format("Scanned path %s -> URI = %s", path, uri.toString()));
         });
         txtDefaultOutput.setText(stringBuilder.append(getString(R.string.str_completed)));
     }
@@ -124,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         txtStatus = findViewById(R.id.text_status);
         etDirectoryInput = findViewById(R.id.et_directory_input);
         spMode = findViewById(R.id.spinner_mode);
+        swDebug = findViewById(R.id.sw_debug);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sp_drop_down_menu, android.R.layout.simple_spinner_item);
         spMode.setAdapter(adapter);
         etDirectoryInput.setText(getStoreText());
@@ -144,5 +152,7 @@ public class MainActivity extends AppCompatActivity {
             String directory = etDirectoryInput.getText().toString();
             txtStatus.setText(Environment.getExternalStorageDirectory() + directory);
         });
+
+        swDebug.setOnCheckedChangeListener((buttonView, isChecked) -> debugMode = isChecked);
     }
 }

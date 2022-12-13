@@ -6,7 +6,12 @@
     <string name="str_completed">Completed</string>
     <string name="key_pref_file">DEFAULT_PREF</string>
     <string name="key_input_data">INPUT_DIRECTORY</string>
+    <string name="str_sw_debug">DEBUG</string>
     <string-array name="sp_drop_down_menu">
+        <item>Last 10 minutes</item>
+        <item>Last 1 hour</item>
+        <item>Last 3 hours</item>
+        <item>Last 12 hours</item>
         <item>Last 1 day</item>
         <item>Last 3 days</item>
         <item>Last 7 days</item>
